@@ -3,8 +3,8 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private int t = 1;
-    private double[] xt;
+    private final int t;
+    private final double[] xt;
 
     public PercolationStats(int n, int trials) {
         if (n < 1 || trials < 1) {
@@ -46,7 +46,7 @@ public class PercolationStats {
     // test client (see below)
     public static void main(String[] args) {
         int n = Integer.parseInt(args[0]);
-        int t = Integer.parseInt(args[0]);
+        int t = Integer.parseInt(args[1]);
         PercolationStats pStat = new PercolationStats(n, t);
         StdOut.println("mean                     = " + pStat.mean());
         StdOut.println("stddev                   = " + pStat.stddev());
