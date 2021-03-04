@@ -6,6 +6,7 @@ public class Percolation {
     private boolean[] grid; // linearized representation of n*n grid as row*n+col
     private final WeightedQuickUnionUF wQUF;
     private final int n;
+    private final int n2;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -13,19 +14,20 @@ public class Percolation {
             throw new IllegalArgumentException("n should be >=0");
         }
         this.n = n;
-        grid = new boolean[n * n + 1]; // 0 is closed, 1 is open & first index of grid is not used
-        wQUF = new WeightedQuickUnionUF(n * n + 2); // objects from 0 -> n*n+1
+        this.n2 = n * n;
+        grid = new boolean[n2 + 1]; // 0 is closed, 1 is open & first index of grid is not used
+        wQUF = new WeightedQuickUnionUF(n2 + 2); // objects from 0 -> n*n+1
     }
 
     private int toIndex(int row, int col) {
-        if (row < 0 || col < 0 || row > n || col > n) { // range for row, col is [1,n]
-            throw new IllegalArgumentException("bad row/col values");
-        }
         return row + n * (col - 1);
     }
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
+        if (row < 0 || col < 0 || row > n || col > n) { // range for row, col is [1,n]
+            throw new IllegalArgumentException("bad row/col values");
+        }
         if (!isOpen(row, col)) {
             grid[toIndex(row, col)] = true;
             if (row < n && isOpen(row + 1, col)) {
@@ -44,13 +46,16 @@ public class Percolation {
                 wQUF.union(0, toIndex(row, col)); // add to virtual top
             }
             if (row == n) {
-                wQUF.union(n * n + 1, toIndex(row, col)); // add to virtual bottom
+                wQUF.union(n2 + 1, toIndex(row, col)); // add to virtual bottom
             }
         }
     }
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
+        if (row < 0 || col < 0 || row > n || col > n) { // range for row, col is [1,n]
+            throw new IllegalArgumentException("bad row/col values");
+        }
         if (grid[toIndex(row, col)]) {
             return true;
         }
@@ -59,18 +64,18 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        return (wQUF.find(toIndex(row, col)) == wQUF.find(0) && isOpen(row,
-                                                                       col)); // top common node to queried point
+        if (row < 0 || col < 0 || row > n || col > n) { // range for row, col is [1,n]
+            throw new IllegalArgumentException("bad row/col values");
+        }
+        return (wQUF.find(toIndex(row, col)) == wQUF.find(0)); // top common node to queried point
     }
 
     // returns the number of open sites
     public int numberOfOpenSites() {
         int count = 0;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (isOpen(i, j)) {
-                    count++;
-                }
+        for (int i = 1; i <= n2; i++) {
+            if (grid[i]) {
+                count++;
             }
         }
         return count;
@@ -78,7 +83,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return (wQUF.find(0) == wQUF.find(n * n + 1));
+        return (wQUF.find(0) == wQUF.find(n2 + 1));
     }
 
     public static void main(String[] args) {
