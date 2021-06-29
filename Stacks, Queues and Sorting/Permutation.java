@@ -1,5 +1,5 @@
 /********************************************
- * @author: Ishan Daga 27/6/21
+ * @author: Ishan Daga 29/6/21
  *
  * Permutation program
  *
@@ -29,24 +29,29 @@
  */
 
 import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class Permutation {
     public static void main(String[] args) {
-        int k = Integer.parseInt(args[0]);
-        int read = 0;
-        RandomizedQueue<String> randomQueue = new RandomizedQueue<>();
-        while (!StdIn.isEmpty()) {
-            read++;
-            // reservoir sampling
-            if (read > k && StdRandom.uniform(read) < k) { // if total read > required (k), with probability k/i remove old, add new item
-                randomQueue.dequeue();
-            } else if (read > k) { continue; } // ignores new input if total read strings is greater than k (required length)
-            randomQueue.enqueue(StdIn.readString());
-        }
-        for (int i = 0; i < k; i++) {
-            StdOut.println(randomQueue.dequeue());
+        int k;
+        int n = 0;
+        try {
+            k = Integer.parseInt(args[0]); // required number of inputs
+            RandomizedQueue<String> randomQueue = new RandomizedQueue<String>();
+
+            while (!StdIn.isEmpty()) { // read all inputs
+                n++;
+                String in = StdIn.readString();
+                if (n > k && StdRandom.uniform(n) < k)  { // with probability k/i take new item and remove random (1/k) old item
+                    randomQueue.dequeue(); // remove old item
+                } else if (n > k) { continue; } // with probability 1 - k/i, ignore new item
+                randomQueue.enqueue(in); // add new item
+            }
+            for (int i = 0; i < k; i++) {
+                System.out.println(randomQueue.dequeue());
+            }
+        } catch (NumberFormatException nfe) {
+            System.out.println("The argument must be an integer.");
         }
     }
 }
