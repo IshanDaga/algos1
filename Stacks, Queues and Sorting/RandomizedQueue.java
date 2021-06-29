@@ -1,6 +1,8 @@
 /********************************************
  * @author: Ishan Daga 27/6/21
- * 
+ *
+ * Array Implementation of Randomized Queue
+ *
  * A randomized queue is similar to a stack or queue, 
  * except that the item removed is chosen uniformly at 
  * random among items in the data structure.
