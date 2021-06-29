@@ -50,7 +50,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item) {
         if (item == null) {
-            throw new NullPointerException("Bad data, cannot insert null type");
+            throw new IllegalArgumentException("Bad data, cannot insert null type");
         }
         if (dataSz == size) {
             resize(dataSz*2);
@@ -68,7 +68,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         items[rnd] = items[dataSz-1];
         items[dataSz-1] = null;
         dataSz--;
-        if (dataSz <= size/4) {
+        if (dataSz <= size/4 && dataSz != 0) {
             resize(dataSz);
         }
         return toRet;
@@ -92,6 +92,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new UnsupportedOperationException();
         }
         public Item next() {
+            if (itSize == 0) {
+               throw new NoSuchElementException();
+            }
             int rnd = StdRandom.uniform(itSize);
             Item toRet = copyItems[rnd];
             copyItems[rnd] = copyItems[itSize-1];
@@ -124,7 +127,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         for (String a: randQ) {
             System.out.print(a+" ");
         }
-        for (int i=0; i < randQ.size(); i++) {
+        for (int i = 0; i < randQ.size(); i++) {
             System.out.println(randQ.dequeue());
         }
     }

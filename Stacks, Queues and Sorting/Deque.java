@@ -47,7 +47,7 @@ public class Deque<Item> implements Iterable<Item> {
     // add the item to the front
     public void addFirst(Item item) {
         if (item == null) {
-            throw new NullPointerException("No null values allowed in deque");
+            throw new IllegalArgumentException("No null values allowed in deque");
         }
         Node newDat = new Node();
         newDat.item = item;
@@ -65,7 +65,7 @@ public class Deque<Item> implements Iterable<Item> {
     // add the item to the back
     public void addLast(Item item) {
         if (item == null) {
-            throw new NullPointerException("No null values allowed in deque");
+            throw new IllegalArgumentException("No null values allowed in deque");
         }
         Node newDat = new Node();
         newDat.item = item;
@@ -120,6 +120,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
         public void remove() { throw new UnsupportedOperationException(); }
         public Item next() {
+            if (current == null) {
+                throw new NoSuchElementException();
+            }
             Item toRet = current.item;
             current = current.next;
             return toRet;
