@@ -1,3 +1,11 @@
+/********************************************
+ * @author: Ishan Daga 27/6/21
+ * 
+ * Doubly linked list implementation of a Deque 
+ * Algos - 1 : Week 2
+ * 
+ */
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -7,41 +15,41 @@ public class Deque<Item> implements Iterable<Item> {
     private Node last;
     private int size;
 
-    private class Node{
-        Item item;
-        Node next;
-        Node prev;
+    private class Node {
+        private Item item;
+        private Node next;
+        private Node prev;
     }
 
     // construct an empty deque
-    public Deque(){
+    public Deque() {
         first = null;
         last = null;
         size = 0;
     }
 
     // is the deque empty?
-    public boolean isEmpty(){
-        return (size==0);
+    public boolean isEmpty() {
+        return (size == 0);
     }
 
     // return the number of items on the deque
-    public int size(){
+    public int size() {
         return size;
     }
 
     // add the item to the front
-    public void addFirst(Item item){
-        if(item==null){
+    public void addFirst(Item item) {
+        if (item == null) {
             throw new NullPointerException("No null values allowed in deque");
         }
         Node newDat = new Node();
         newDat.item = item;
         newDat.next = first;
         newDat.prev = null;
-        if(isEmpty()){
+        if (isEmpty()) {
             last = newDat;
-        }else{
+        } else {
             first.prev = newDat;
         }
         first = newDat;
@@ -49,17 +57,17 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // add the item to the back
-    public void addLast(Item item){
-        if(item==null){
+    public void addLast(Item item) {
+        if (item == null) {
             throw new NullPointerException("No null values allowed in deque");
         }
         Node newDat = new Node();
         newDat.item = item;
         newDat.next = null;
         newDat.prev = last;
-        if(isEmpty()){
+        if (isEmpty()) {
             first = newDat;
-        }else{
+        } else {
             last.next = newDat;
         }
         last = newDat;
@@ -67,45 +75,45 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // remove and return the item from the front
-    public Item removeFirst(){
-        if(isEmpty()){
+    public Item removeFirst() {
+        if (isEmpty()) {
             throw new NoSuchElementException();
         }
         Item fr = first.item;
         first = first.next;
         size--;
-        if(isEmpty()){
-            last=null;
-        }else{
+        if (isEmpty()) {
+            last = null;
+        } else {
             first.prev = null;
         }
         return fr;
     }
 
     // remove and return the item from the back
-    public Item removeLast(){
-        if(isEmpty()){
+    public Item removeLast() {
+        if (isEmpty()) {
             throw new NoSuchElementException();
         }
         Item removed = last.item;
         last = last.prev;
         size--;
-        if(isEmpty()){
+        if (isEmpty()) {
             first = null;
-        }else{
+        } else {
             last.next = null;
         }
         return removed;
     }
 
-    private class ListIterator implements Iterator<Item>{
-        Node current;
-        private ListIterator(Node start){current = start;}
-        public boolean hasNext(){
-            return (current!=null);
+    private class ListIterator implements Iterator<Item> {
+        private Node current;
+        private ListIterator(Node start) { current = start; }
+        public boolean hasNext() {
+            return (current != null);
         }
-        public void remove(){throw new UnsupportedOperationException();}
-        public Item next(){
+        public void remove() { throw new UnsupportedOperationException(); }
+        public Item next() {
             Item toRet = current.item;
             current = current.next;
             return toRet;
@@ -113,19 +121,24 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // return an iterator over items in order from front to back
-    public Iterator<Item> iterator(){return new ListIterator(first);}
+    public Iterator<Item> iterator() { return new ListIterator(first); }
 
     // unit testing (required)
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Deque<String> deque = new Deque<>();
         deque.addFirst("Hello");
         deque.addLast("World");
         deque.addLast("How");
         deque.addLast("goes");
         deque.addLast("It");
-        for(String a: deque){
+        for (String a: deque) {
             System.out.print(a+"  ");
         }
+        System.out.println(deque.removeFirst());
+        System.out.println(deque.removeFirst());
+        System.out.println(deque.removeFirst());
+        System.out.println(deque.removeLast());
+        System.out.println(deque.removeLast());
     }
 
 }
