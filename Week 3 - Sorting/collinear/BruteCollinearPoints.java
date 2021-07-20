@@ -51,7 +51,7 @@ public class BruteCollinearPoints {
         segments = segmentList.toArray(new LineSegment[0]);
     }
     public int numberOfSegments() { // the number of line segments
-        return numberOfSegments-1;
+        return segments.length;
     }
     public LineSegment[] segments() {
         return segments.clone();
