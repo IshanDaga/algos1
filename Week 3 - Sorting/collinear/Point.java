@@ -65,10 +65,10 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        if (this.y == that.y) return 0.0;
         if (this.x == that.x) {
             return this.y == that.y ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         }
+        if (this.y == that.y) return 0.0;
         return (this.y - that.y) * 1.0 / (this.x - that.x); // *1.0 to ensure floating point arithmetic
     }
 
@@ -99,6 +99,9 @@ public class Point implements Comparable<Point> {
     }
     private class SlopeOrder implements Comparator<Point> {
         public int compare(Point a, Point b) {
+            if (a == null || b == null) {
+                throw new NullPointerException("Points cannot be null");
+            }
             double slopeA = slopeTo(a);
             double slopeB = slopeTo(b);
             if (slopeA > slopeB) return +1;

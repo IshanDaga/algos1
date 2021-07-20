@@ -25,7 +25,7 @@ public class FastCollinearPoints {
     public FastCollinearPoints(Point[] points) { // finds all line segments containing 4 or more points
         if (points == null) throw new NullPointerException("Array cannot be null"); // argument cannot be null
         for (int i = 0; i < points.length - 1; i++) {
-            if (points[i] == null) throw new NullPointerException("Points cannot be null"); // no point can be null
+            if (points[i] == null) throw new IllegalArgumentException("Points cannot be null"); // no point can be null
         }
         Point[] copyOfPoints = points.clone();
         Arrays.sort(copyOfPoints); // sort the points
