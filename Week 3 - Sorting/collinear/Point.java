@@ -126,7 +126,7 @@ public class Point implements Comparable<Point> {
         /* YOUR CODE HERE */
         In in = new In();
         int n = in.readInt();
-        Point points[] = new Point[n];
+        Point[] points = new Point[n];
         for (int i = 0; i < n; i++) {
             StdOut.println("Enter new points");
             int x = in.readInt();

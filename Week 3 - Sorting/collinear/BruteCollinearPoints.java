@@ -16,18 +16,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BruteCollinearPoints {
-    private LineSegment[] segments;
-    private int numberOfSegments;
+    private final LineSegment[] segments;
     public BruteCollinearPoints(Point[] points) { // finds all line segments containing 4 points
-        if (points == null) throw new IllegalArgumentException(); // argument cannot be null
-        Point[] copyOfPoints = Arrays.copyOf(points, points.length);
+        if (points == null) throw new NullPointerException("Array cannot be null"); // argument cannot be null
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i] == null) throw new NullPointerException("Points cannot be null"); // no point can be null
+        }
+        Point[] copyOfPoints = points.clone();
         Arrays.sort(copyOfPoints); // sort the points
         for (int i = 0; i < copyOfPoints.length - 1; i++) {
-            if (copyOfPoints[i] == null) throw new IllegalArgumentException("Points cannot be null"); // no point can be null
             if (copyOfPoints[i].compareTo(copyOfPoints[i+1]) == 0) throw new IllegalArgumentException("Cannot have the same points"); // if any two points are the same
         }
-        numberOfSegments = 0;
-        segments = new LineSegment[points.length];
+
         ArrayList<LineSegment> segmentList = new ArrayList<LineSegment>();
         for (int p = 0; p < copyOfPoints.length - 3; p++) {
             Point i = copyOfPoints[p];
