@@ -66,9 +66,10 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         if (this.y == that.y) return 0.0;
-        if (this.x == that.x) return Double.POSITIVE_INFINITY;
-        if (this.compareTo(that) == 0) return Double.NEGATIVE_INFINITY;
-        return (double) (that.y - this.y) / (that.x - this.x);
+        if (this.x == that.x) {
+            return this.y == that.y ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
+        }
+        return (this.y - that.y) * 1.0 / (this.x - that.x); // *1.0 to ensure floating point arithmetic
     }
 
     /**
@@ -84,13 +85,7 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        if (that.y > this.y) return -1; // p1 (that) greater than p0 (this)
-        else if (that.y == this.y) { // if y-coordinates equal, compare x coordinates
-            if (that.x > this.x) return -1;
-            else if (that.x == this.x) return 0; // points are the same
-            else return +1; // p0(x0) greater than p1(x1)
-        }
-        else return +1; // y0 is greater than y1
+        return this.y == that.y ? this.x - that.x : this.y - that.y; // 0 if x and y are same for both points
     }
 
     /**
@@ -102,7 +97,7 @@ public class Point implements Comparable<Point> {
     public Comparator<Point> slopeOrder() {
         return new SlopeOrder();
     }
-    public class SlopeOrder implements Comparator<Point> {
+    private class SlopeOrder implements Comparator<Point> {
         public int compare(Point a, Point b) {
             double slopeA = slopeTo(a);
             double slopeB = slopeTo(b);
