@@ -2,7 +2,7 @@
  * Name         : MergeSort
  * Date         : 21/7/21
  * @author      : Ishan Daga
- * Description  : Divide array into two halve, recursively sort each half. 
+ * Description  : Divide array into two halves, recursively sort each half.
  *                Merge two halves.
  * 
  * Sub problem -> merging : to merge two sorted halves a[lo] to a[mid], a[mid+1] to a[hi]
@@ -26,7 +26,7 @@ public class MergeSort {
         // k -> final sorted iterator
         int i = lo, j = mid + 1; // i -> iter 1 for aux[lower half]
         for (int k = lo; k <= hi; k++) { // j -> iter 2 for aux[upper half]
-            if (i > mid)                   aux[k] = a[j++]; // if lower half is exhusted 
+            if (i > mid)                   aux[k] = a[j++]; // if lower half is exhausted
             else if (j > hi)               aux[k] = a[i++]; // if upper half is exhausted
             else if (less(a[j], a[i]))     aux[k] = a[j++]; // j is lesser than i
             else                           aux[k] = a[i++]; // i is less than j

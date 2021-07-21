@@ -3,3 +3,6 @@
 /workspace.xml
 *.txt
 *.zip
+*.xml
+*.class
+*.png
